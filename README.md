@@ -97,66 +97,103 @@ Roles are `submitter` or `reviewer`, chosen at registration. Reviewers can comme
 
 **Step 0:** Confirm your database has the current schema (ran `npm run migrate` against a fresh DB, or applied the matching `ALTER TABLE` statements), then run `npm run dev` and note the port it prints.
 
-**Test 1 — Register a reviewer**
-`POST /api/auth/register`
-```json
-{"name":"Rita Reviewer","email":"rita@test.com","password":"secret123","role":"reviewer"}
-```
-✅ Get back a `user` + `token`. Save as **Rita's token** / **Rita's ID**.
+## Test 1 — Register a Reviewer
 
-**Test 2 — Register a submitter**
-Same URL, body:
+- **Method:** `POST`
+- **URL:** `http://localhost:4001/api/auth/register` (use your actual port)
+- **Body → raw → JSON:**
+  ```json
+  {"name":"Rita Reviewer","email":"rita@test.com","password":"secret123","role":"reviewer"}
+  ```
+- ✅ **Pass if:** you get a `user` and `token` back.
+  Copy the token → label it **"Rita's token"**.
+  Copy `user.id` → label it **"Rita's ID"**.
+
+## Test 2 — Register a Submitter
+
+Same request, new body:
+
 ```json
 {"name":"Sam Submitter","email":"sam@test.com","password":"secret123","role":"submitter"}
 ```
-✅ Save as **Sam's token** / **Sam's ID**.
 
-**Test 3 — Create a project** (as Sam)
-`POST /api/projects`, Auth: Sam's token
-```json
-{"name":"Payments API","description":"Test project"}
-```
-✅ Save the returned `id` as **Project ID**.
+- ✅ **Pass if:** you get a token and id.
+  Copy them → **"Sam's token"** and **"Sam's ID"**.
 
-**Test 4 — Add Rita to the project**
-`POST /api/projects/PROJECT_ID/members`, Auth: Sam's token
-```json
-{"userId":"RITA_ID"}
-```
-✅ "Member added".
+## Test 3 — Create a Project (as Sam)
 
-**Test 5 — Sam submits code**
-`POST /api/submissions`, Auth: Sam's token
-```json
-{"projectId":"PROJECT_ID","title":"Add login helper","codeContent":"function login() { return true; }","language":"javascript"}
-```
-✅ `"status":"pending"`. Save `id` as **Submission ID**.
+- **Method:** `POST`
+- **URL:** `.../api/projects`
+- **Auth tab:** Bearer Token → Sam's token
+- **Body:**
+  ```json
+  {"name":"Payments API","description":"Test project"}
+  ```
+- ✅ **Pass if:** you get a project with an `id`.
+  Copy it → **"Project ID"**.
 
-**Test 6 — Sam tries to comment (should fail)**
-`POST /api/submissions/SUBMISSION_ID/comments`, Auth: Sam's token
-```json
-{"content":"testing"}
-```
-✅ **403** expected — submitters can't comment.
+## Test 4 — Add Rita to the Project
 
-**Test 7 — Rita comments (should work)**
-Same request, Auth: Rita's token.
-✅ **201**, comment returned.
+- **Method:** `POST`
+- **URL:** `.../api/projects/PROJECT_ID/members` (swap in the real ID)
+- **Auth:** Sam's token
+- **Body:**
+  ```json
+  {"userId":"RITA_ID"}
+  ```
+- ✅ **Pass if:** response says "Member added".
 
-**Test 8 — Rita approves**
-`POST /api/submissions/SUBMISSION_ID/approve`, Auth: Rita's token
-```json
-{"comment":"Looks good"}
-```
-✅ `"status":"approved"`, `"review_action":"approved"`.
+## Test 5 — Sam Submits Code
 
-**Test 9 — Check the latest review**
-`GET /api/submissions/SUBMISSION_ID/reviews`, Auth: Sam's token
-✅ `"latestReview":{"action":"approved", ...}` (latest only, not full history).
+- **Method:** `POST`
+- **URL:** `.../api/submissions`
+- **Auth:** Sam's token
+- **Body:**
+  ```json
+  {"projectId":"PROJECT_ID","title":"Add login helper","codeContent":"function login() { return true; }","language":"javascript"}
+  ```
+- ✅ **Pass if:** `"status":"pending"`.
+  Copy the `id` → **"Submission ID"**.
 
-**Test 10 — Check the stats**
-`GET /api/projects/PROJECT_ID/stats`, Auth: Sam's token
-✅ Numbers for `totalSubmissions`, `approvalRatePercent`, `mostActiveReviewers`.
+## Test 6 — Sam Tries to Comment (Should Be Blocked)
+
+- **Method:** `POST`
+- **URL:** `.../api/submissions/SUBMISSION_ID/comments`
+- **Auth:** Sam's token
+- **Body:** `{"content":"testing"}`
+- ✅ **Pass if:** you get **403**. This is *supposed* to fail — submitters can't comment.
+
+## Test 7 — Rita Comments (Should Work)
+
+Same request as Test 6, but **Auth → Rita's token**.
+
+- ✅ **Pass if:** status `201`, comment comes back in the response.
+
+## Test 8 — Rita Approves the Submission
+
+- **Method:** `POST`
+- **URL:** `.../api/submissions/SUBMISSION_ID/approve`
+- **Auth:** Rita's token
+- **Body:** `{"comment":"Looks good"}`
+- ✅ **Pass if:** you get back the submission with `"status":"approved"` and `"review_action":"approved"`.
+
+## Test 9 — Check the Latest Review Decision
+
+- **Method:** `GET`
+- **URL:** `.../api/submissions/SUBMISSION_ID/reviews`
+- **Auth:** Sam's token
+- ✅ **Pass if:** you see `"latestReview":{"action":"approved", ...}`.
+
+> **Note:** this only shows the *latest* decision, not a full history — that's expected with the simplified schema.
+
+## Test 10 — Check the Stats
+
+- **Method:** `GET`
+- **URL:** `.../api/projects/PROJECT_ID/stats`
+- **Auth:** Sam's token
+- ✅ **Pass if:** you get back numbers like `totalSubmissions`, `approvalRatePercent`, `mostActiveReviewers`.
+
+---
 
 If all 10 pass, every feature works end to end.
 
