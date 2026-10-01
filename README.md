@@ -2,8 +2,6 @@
 
 An API-driven service for teams to submit code snippets, request reviews, comment inline, track review status, and get real-time notifications.
 
-Built to be **simple to read**: no ORM, no service/repository layers. Every controller talks directly to PostgreSQL with plain, parameterized SQL, and every file has comments explaining *why*, not just *what*.
-
 ## Tech Stack
 
 - **Node.js + TypeScript + Express** — the web server
