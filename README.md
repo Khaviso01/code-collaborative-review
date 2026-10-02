@@ -103,7 +103,7 @@ Roles are `submitter` or `reviewer`, chosen at registration. Reviewers can comme
 - **URL:** `http://localhost:4001/api/auth/register` (use your actual port)
 - **Body → raw → JSON:**
   ```json
-  {"name":"Rita Reviewer","email":"rita@test.com","password":"secret123","role":"reviewer"}
+  {"name":"Khaviso Reviewer","email":"rita@gmail.com","password":"secret123","role":"reviewer"}
   ```
 - ✅ **Pass if:** you get a `user` and `token` back.
   Copy the token → label it **"Rita's token"**.
@@ -114,7 +114,7 @@ Roles are `submitter` or `reviewer`, chosen at registration. Reviewers can comme
 Same request, new body:
 
 ```json
-{"name":"Sam Submitter","email":"sam@test.com","password":"secret123","role":"submitter"}
+{"name":"Sharon Submitter","email":"sharon@gmail.com","password":"secret123","role":"submitter"}
 ```
 
 - ✅ **Pass if:** you get a token and id.
@@ -203,7 +203,7 @@ Notifications fire on: new comment, review decision, project invite — pushed l
 
 ```js
 import { io } from 'socket.io-client';
-const socket = io('http://localhost:4000', { auth: { token: 'PASTE_YOUR_JWT_HERE' } });
+const socket = io('http://localhost:4001', { auth: { token: 'PASTE_YOUR_JWT_HERE' } });
 socket.on('notification', (n) => console.log('New notification!', n));
 ```
 
