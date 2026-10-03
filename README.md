@@ -43,7 +43,7 @@ Clone the repository and navigate into the project directory:
 git clone [https://github.com/your-username/code-collborative-review.git](https://github.com/your-username/code-review-platform.git)
 cd code-collaborative-review
 ```
-
+Then
 ```
 npm install
 cp .env.example .env        # then fill in your PostgreSQL credentials
