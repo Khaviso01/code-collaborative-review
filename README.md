@@ -103,11 +103,12 @@ Roles are `submitter` or `reviewer`, chosen at registration. Reviewers can comme
 - **URL:** `http://localhost:4001/api/auth/register` (use your actual port)
 - **Body → raw → JSON:**
   ```json
-  {"name":"Khaviso Reviewer","email":"rita@gmail.com","password":"secret123","role":"reviewer"}
+  {"name":"Rita Reviewer","email":"rita@test.com","password":"secret123","role":"reviewer"}
   ```
 - ✅ **Pass if:** you get a `user` and `token` back.
   Copy the token → label it **"Rita's token"**.
   Copy `user.id` → label it **"Rita's ID"**.
+
 
 ## Test 2 — Register a Submitter
 
