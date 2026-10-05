@@ -103,7 +103,7 @@ Roles are `submitter` or `reviewer`, chosen at registration. Reviewers can comme
 - **URL:** `http://localhost:4001/api/auth/register` (use your actual port)
 - **Body → raw → JSON:**
   ```json
-  {"name":"Khaviso Reviewer","email":"khavisovukeya@gmail.com","password":"secret123","role":"reviewer"}
+  {"name":"Khaviso Reviewer","email":"rita@gmail.com","password":"secret123","role":"reviewer"}
   ```
 - ✅ **Pass if:** you get a `user` and `token` back.
   Copy the token → label it **"Rita's token"**.
@@ -114,11 +114,11 @@ Roles are `submitter` or `reviewer`, chosen at registration. Reviewers can comme
 Same request, new body:
 
 ```json
-{"name":"Sharon Submitter","email":"sharon@gmail.com","password":"secret123","role":"submitter"}
+{"name":"Sam Submitter","email":"sam@test.com","password":"secret123","role":"submitter"}
 ```
 
 - ✅ **Pass if:** you get a token and id.
-  Copy them → **"Sam's token"** and **"Sam's ID"**.
+Copy them → **"Sam's token"** and **"Sam's ID"**.
 
 ## Test 3 — Create a Project (as Sam)
 
