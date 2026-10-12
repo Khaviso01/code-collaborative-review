@@ -185,7 +185,6 @@ Same request as Test 6, but **Auth → Rita's token**.
 - **Auth:** Sam's token
 - ✅ **Pass if:** you see `"latestReview":{"action":"approved", ...}`.
 
-> **Note:** this only shows the *latest* decision, not a full history — that's expected with the simplified schema.
 
 ## Test 10 — Check the Stats
 
