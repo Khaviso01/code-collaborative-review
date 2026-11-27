@@ -28,12 +28,12 @@ export const createProjectSchema = z.object({
 
 // Schema for validating project member addition payloads
 export const addMemberSchema = z.object({
-  userId: z.string().uuid('userId must be a valid UUID'),
+  userId: z.coerce.number().int(),
 });
 
 // Schema for validating code submission creation requests
 export const createSubmissionSchema = z.object({
-  projectId: z.string().uuid('projectId must be a valid UUID'),
+  projectId: z.coerce.number().int(),
   title: z.string().min(1, 'Title is required'),
   codeContent: z.string().min(1, 'codeContent is required'),
   language: z.string().optional(),
